@@ -1,0 +1,23 @@
+df<- read.csv("C:/Users/desai/Downloads/cpi.csv")
+df
+View(df)
+library(tidyverse)
+library(dplyr)
+any(is.na(df))
+sum(is.na(df))
+df_clean <- na.omit(df)
+any(is.na(df_clean))
+sum(is.na(df_clean))
+library(forecast)
+library(tseries)
+cpi <- ts(df$Goa,start=min(df$Year),end=max(df$Year),frequency = 1)
+class(cpi)
+plot(cpi)
+acf(cpi)
+pacf(cpi)
+adf.test(cpi)
+gdpmodel=auto.arima(cpi,ic="aic",trace=TRUE)
+gdpdf=forecast(gdpmodel,level=c(95),h=10)
+gdpdf
+
+plot(gdpdf)
